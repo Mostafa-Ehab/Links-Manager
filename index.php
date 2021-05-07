@@ -100,7 +100,7 @@ if (isset($_SESSION['id'])){
             }
             else
             {
-                $name =  "data/qr/" . $_GET['url-id'] . ".png";
+                $name =  "qr/" . $_GET['url-id'] . ".png";
 
                 if (is_file($name))
                 {
