@@ -203,7 +203,7 @@
         </div>
     </div>
 
-    <input type="text" id="copyText"/>
+    <input type="text" id="copyText" readonly/>
 
     <script src="layout/js/home.js"></script>
 

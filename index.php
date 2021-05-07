@@ -212,7 +212,7 @@ if (isset($_SESSION['id'])){
                     $stmt->execute(array($_SESSION['id'], $title, $url, IP()));
 
                     $last_id = $conn->lastInsertId();
-                    QRcode::png($url, "data/qr/$last_id.png", 'L', 10, 2);
+                    QRcode::png($url, "qr/$last_id.png", 'L', 10, 2);
                     echo 0;
                 }
                 else
