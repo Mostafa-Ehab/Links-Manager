@@ -1,5 +1,9 @@
 <?php
-include "templates/dbconnect.php";
+session_start();
+include "includes/functions/init.php";
+
+$pageTitle = "Login";
+
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
     if (isset($_SESSION['id']))
@@ -21,37 +25,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     {
         $user = $_POST['username'];
         $pass = $_POST['password'];
-        $sql = "SELECT * FROM users WHERE username = '$user'";
 
-        $result = mysqli_query($conn, $sql);
+        $stmt = $conn->prepare("SELECT * FROM Users WHERE Username = ?");
+        $stmt->execute(array($user));
 
-        if (mysqli_num_rows($result) == 0) {
+        if ($stmt->rowCount() == 0) {
             echo 103;
             exit;
         }
         else
         {
-            $dbrow = mysqli_fetch_assoc($result);
-            $passhash = $dbrow["password"];
-            $_SESSION["id"] = $id = $dbrow['id'];
+            $dbrow = $stmt->fetch();
+
+            $passhash = $dbrow["Password"];
             if (password_verify($pass, $passhash))
             {
                 // Start login
-                session_start();
-                // Token already exist in database
-                if (!empty($dbrow['session']))
-                {
-                    setcookie("token", $dbrow['session'], time() + 86400);
-                }
-                // Update Cookies with the value in database
-                else
-                {
-                    $token = $id . session_id();
-                    $sql = "UPDATE users SET session = '$token' WHERE id = '$id'";
-                    mysqli_query($conn, $sql);
-                    setcookie("token", $token, time() + 86400);
-                }
-                //echo "updated database and setcookies";
+                $_SESSION["id"] = $dbrow['ID'];
+                $_SESSION['username'] = $dbrow['Username'];
+
                 echo 0;
                 exit;
             }
@@ -64,138 +56,52 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
     exit;
 }
-else if (isset($_COOKIE['token']))
+else
 {
     if (isset($_SESSION['id']))
     {
-        session_unset();
-        session_destroy();
+        header("Location: index.php");
     }
-    $token = $_COOKIE['token'];
-    $sql = "SELECT id FROM users WHERE session = '$token'";
-    $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) == 0)
-    {
-        setcookie("token", "", time() - 3600);
-        header("Location: /login.php");
-        exit;
-    }
-    else
-    {
-        session_start();
-        $_SESSION['id'] = mysqli_fetch_assoc($result)['id'];
-        echo "redirect to index";
-        header("Location: /");
-        exit;
-    }
+    
+    include "$tmp/header.php";
+    ?>
+
+        <body class="login">
+
+        <h1 class="text-center"> Login </h1>
+        <form name="form">
+            <!-- Start Username field -->
+                <p id="username-err" class="text-danger error"> </p>
+                <div class="form-group row">
+                    <label for="username" class="col-sm-2 col-form-label">Username</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="username" id="uername" placeholder="Enter Username" autocomplete="off">
+                    </div>
+                </div>
+            <!-- End Username field -->
+
+            <!-- Start Password field -->
+                <p id="password-err" class="text-danger error"> </p>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" autocomplete="off">
+                    </div>
+                </div>
+            <!-- End Password field -->
+
+            <!-- Start Save Button field -->
+                <div class="form-group">
+                    <!-- <div class="col-sm-10"> -->
+                        <button type="submit" class="btn btn-primary" id="login"><i class="fa fa-sign-in-alt"></i> Login</button>
+                    <!-- </div> -->
+                </div>
+            <!-- End Save Button field -->
+        </form>
+        <script src="layout/js/login.js"></script>
+    
+    <?php
+        include "$tmp/footer.php";
 }
-else
-{
-    $title = "Links Manager - Login";
-    $name = "login";
-    include "templates/header.php";
+    
 ?>
-
-        <nav class="navbar navbar-expand-md navbar-light bg-light border fixed-top">
-             <!-- logo -->
-            <a class="navbar-brand col-2 nav-icon" href="/">
-                <img src="img/logo.png" alt="logo" style="width:50px;">
-            </a>
-        </nav>
-        <main class="contain">
-            <form name="form">
-                <div>
-                    <p id="username" class="text-danger check"> </p>
-                    <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
-                </div>
-                <div>
-                    <p id="password" class="text-danger check"> </p>
-                    <input class="form-control" name="password" placeholder="Password" type="password">
-                </div>
-                <div>
-                    <p> </p>
-                    <button class="btn btn-primary form-control" id="loginBtn">Log In</button>
-                </div>
-            </form>
-            <br><br>
-            <div class="row">
-                <div class="col-sm" id="register">
-                    <a href="/register.php" class="text-primary"> Don't have account? Create account</a>
-                </div>
-            </div>
-        </main>
-        <script>
-            document.querySelector("#loginBtn").addEventListener("click", function(event) 
-            {
-                event.preventDefault();
-                if (document.form.username.value == "")
-                {
-                    document.querySelector("#username").innerHTML = "Please, Enter username";
-                }
-                else if (document.form.password.value == "")
-                {
-                    document.querySelector("#password").innerHTML = "Please, Enter password";
-                }
-                else
-                {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function()
-                    {
-                        if (this.readyState == 4 && this.status == 200)
-                        {
-                            //console.log(xhttp.response);
-                            if (xhttp.response != 0)
-                            {
-                                //console.log(xhttp.response);
-                                errorHandler(xhttp.response);
-                            }
-                            else
-                            {
-                                window.location.href = "/";
-                            }
-                        }
-                    }
-                    xhttp.open("POST", "/login.php", true);
-                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhttp.send("&username=" + document.form.username.value
-                            + "&password=" + document.form.password.value);
-                }
-            });
-
-            function errorHandler(error)
-            {
-                if (error == 101)
-                {
-                    document.querySelector("#username").innerHTML = "Please, Enter username";
-                }
-                else if (error == 102)
-                {
-                    document.querySelector("#password").innerHTMl = "Please, Enter password";
-                }
-                else if (error == 103)
-                {
-                    document.querySelector("#username").innerHTML = "Username or password are incorrect";
-                }
-            }
-
-            // Remove error on click the text field
-            document.querySelectorAll("input")[0].addEventListener("click", function()  
-            {
-                for (i = 0; i < 2; i++)
-                {
-                    document.querySelectorAll(".check")[i].innerHTML = "";
-                }
-            });
-
-            document.querySelectorAll("input")[1].addEventListener("click", function()  
-            {
-                for (i = 0; i < 2; i++)
-                {
-                    document.querySelectorAll(".check")[i].innerHTML = "";
-                }
-            });
-        </script>
-    </body>
-</html>
-
-<?php } ?>

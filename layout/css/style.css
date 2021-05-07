@@ -1,0 +1,196 @@
+*,
+.col-1
+{
+    padding: 0;
+    margin: 0;
+}
+
+/* -------------------------------
+--------- Public Classes ---------
+--------------------------------*/
+
+.error{
+    text-align: center;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+}
+
+.success,
+.errorAlert{
+    height: 0;
+    overflow: hidden;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 56px;
+    z-index: 3;
+}
+
+.errorAlert div{
+    margin-top: 20px;
+}
+
+h1{
+    font-size: 55px;
+    margin: 40px 0;
+    color: #666;
+}
+
+h2{
+    font-size: 35px;
+    margin: 40px 0;
+    color: #666;
+}
+
+.btn:focus,.btn:active {
+   outline: none !important;
+   box-shadow: none;
+}
+
+/* -------------------------------
+----------- Custom Page ----------
+--------------------------------*/
+
+.customPage .container{
+    margin-top: 76px;
+}
+
+/* -------------------------------
+--------- End Custom Page --------
+--------------------------------*/
+
+/* -------------------------------
+----------- Login form -----------
+--------------------------------*/
+
+.login{
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 60%;
+}
+
+/* -------------------------------
+--------- End Login form ---------
+--------------------------------*/
+
+/* -------------------------------
+-------- Start Home Page ---------
+--------------------------------*/
+
+#form-btn{
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    padding: 5px 12px;
+}
+
+.home .container{
+    margin-top: 76px;
+    max-width: 500px;
+}
+
+.home .search-bar{
+    margin: 20px auto;
+    width: 80%;
+}
+
+/* -------------------------------
+----------- Main Table -----------
+--------------------------------*/
+
+.home .container .card{
+    margin-bottom: 5px;
+}
+
+.home .container .card-header{
+    padding: 2px 10px;
+}
+
+.home .container .text-row{
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.home .container .fa-globe,
+.home .container .fa-calendar-week{
+    margin-right: 10px;
+}
+
+/* ---- Buttons Container ---- */
+.home .container .grid-container{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    justify-content: space-around;
+    padding: 0;
+}
+
+/* ---- Favourite Icons ---- */
+.home .container .yellow-star{
+    color: #f1c40f;
+    cursor: pointer;
+    display: inline;
+}
+
+.home .container .black-star{
+    cursor: pointer;
+    display: inline;
+}
+
+/* ---- QR Code Container ---- */
+.home .container .qr-img{
+    max-width: 100%;
+}
+
+/* ---- Delete Confirm Modal ---- */
+.home .container .modal-footer.del-confirm{
+    display: block;
+}
+
+.home .container .modal-dialog.del-confirm{
+    top: 20%;
+}
+
+/* ---- Empty Input Field [URL Copy] ---- */
+.home #copyText{
+    position: fixed;
+    top: -20%;
+}
+
+/* -------------------------------
+------- Accordion Rotation -------
+--------------------------------*/
+.home .container .collapse-button[aria-expanded="false"]{
+    transform: rotate(0deg);
+    animation-name: re-rotate;
+    animation-duration: 0.25s;
+}
+
+.home .container .collapse-button[aria-expanded="true"]{
+    transform: rotate(90deg);
+    animation-name: rotate;
+    animation-duration: 0.25s;
+}
+
+@keyframes rotate {
+  0%   {transform: rotate(22.5deg);}
+  25%  {transform: rotate(45deg);}
+  50%  {transform: rotate(67.5deg);}
+  100% {transform: rotate(90deg);}
+}
+
+@keyframes re-rotate {
+  0%   {transform: rotate(90deg);}
+  25%  {transform: rotate(67.5deg);}
+  50%  {transform: rotate(45deg);}
+  100% {transform: rotate(22.5deg);}
+}
+
+/* -------------------------------
+--------- End Home Page ----------
+--------------------------------*/
+
+
