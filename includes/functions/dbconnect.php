@@ -15,5 +15,3 @@ try{
     echo "Failed database connection: " . $e->getMessage();
 
 }
-
-?>

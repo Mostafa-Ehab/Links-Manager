@@ -1,4 +1,5 @@
 <?php include "$tmp/header.php" ?>
+
 <body class='home'>
     <?php include "$tmp/navbar.php" ?>
     <div>
@@ -39,39 +40,38 @@
         </form>
         <div id="accordion">
             <?php
-                foreach ($results as $result)
-                {
+            foreach ($results as $result) {
             ?>
                 <div class="card" data-id="<?php echo $result['ID']; ?>">
                     <?php
-                        /*
+                    /*
                         ** Start Card Header [Title & Favourite]
                         */
                     ?>
-                        <div class="card-header" id="head<?php echo $result['ID']; ?>">
-                            <div class="row">
-                                <div class="col-11 text-row">
-                                    <button class="btn btn-link collapse-button" data-toggle="collapse" data-target="#body<?php echo $result['ID']; ?>" aria-controls="body<?php echo $result['ID']; ?>">
-                                        <i class="fa fa-chevron-circle-right"></i>
-                                    </button>
-                                    <a href='<?php echo $result['URL']; ?>' target="_blank">
-                                        <?php echo $result['Title']; ?>
-                                    </a>
-                                </div>
-                                <div class="col-1">
-                                    <div class="btn float-right <?php echo ($result['Fav'] == 1)? "yellow-star": "black-star"; ?>">
-                                        <i class="fa fa-star"></i>
-                                    </div>
+                    <div class="card-header" id="head<?php echo $result['ID']; ?>">
+                        <div class="row">
+                            <div class="col-11 text-row">
+                                <button class="btn btn-link collapse-button" data-toggle="collapse" data-target="#body<?php echo $result['ID']; ?>" aria-controls="body<?php echo $result['ID']; ?>">
+                                    <i class="fa fa-chevron-circle-right"></i>
+                                </button>
+                                <a href='<?php echo $result['URL']; ?>' target="_blank">
+                                    <?php echo $result['Title']; ?>
+                                </a>
+                            </div>
+                            <div class="col-1">
+                                <div class="btn float-right <?php echo ($result['Fav'] == 1) ? "yellow-star" : "black-star"; ?>">
+                                    <i class="fa fa-star"></i>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
                     <div id="body<?php echo $result['ID']; ?>" class="collapse" aria-labelledby="head<?php echo $result['ID']; ?>" data-parent="#accordion">
-                    <?php
+                        <?php
                         /*
                         ** Start Card Body [URL & Time]
                         */
-                    ?>
+                        ?>
                         <div class="card-body">
                             <p>
                                 <i class="fa fa-globe"></i>
@@ -85,11 +85,11 @@
                             </p>
                         </div>
 
-                    <?php
+                        <?php
                         /*
                         ** Start Buttons [Footer]
                         */
-                    ?>
+                        ?>
                         <div class="card-footer grid-container">
                             <div class="btn copy" data-clipboard-text="<?php echo $result['URL']; ?>">
                                 <i class="fa fa-copy"></i>
@@ -114,9 +114,9 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">QR Code</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">
-                                    <i class="fa fa-times"></i>
-                                </span>
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
                                 </button>
                             </div>
 
@@ -144,9 +144,9 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Delete URL</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">
-                                    <i class="fa fa-times"></i>
-                                </span>
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-times"></i>
+                                    </span>
                                 </button>
                             </div>
 
@@ -163,50 +163,49 @@
                 </div>
                 <!-- End Delete Confirm Modal -->
             <?php
-                }
+            }
             ?>
         </div>
-    <a class="btn btn-primary" id="form-btn" data-toggle="modal" data-target="#addLink">
-        <i class="fa fa-plus"></i> Add Link</a>
-    </a>
+        <a class="btn btn-primary" id="form-btn" data-toggle="modal" data-target="#addLink">
+            <i class="fa fa-plus"></i> Add Link</a>
+        </a>
 
-    <div class="modal fade" id="addLink" tabindex="-1" role="dialog" aria-labelledby="add-link-header" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="add-link-header">Add Link</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fa fa-times"></i></span>
-                    </button>
-                </div>
+        <div class="modal fade" id="addLink" tabindex="-1" role="dialog" aria-labelledby="add-link-header" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="add-link-header">Add Link</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-times"></i></span>
+                        </button>
+                    </div>
 
-                <div class="modal-body">
-                    <form name="add">
-                        <div class="form-group">
-                            <p class="error text-danger" id="title-err"></p>
-                            <label for="title" class="col-form-label">Title:</label>
-                            <input type="text" class="form-control" id="title" placeholder="Enter Title" autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <p class="error text-danger" id="url-err"></p>
-                            <label for="url" class="col-form-label">Enter URL</label>
-                            <input type="text" class="form-control" id="url" placeholder="Enter URL" autocomplete="off">
-                        </div>
-                    </form>
-                </div>
+                    <div class="modal-body">
+                        <form name="add">
+                            <div class="form-group">
+                                <p class="error text-danger" id="title-err"></p>
+                                <label for="title" class="col-form-label">Title:</label>
+                                <input type="text" class="form-control" id="title" placeholder="Enter Title" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <p class="error text-danger" id="url-err"></p>
+                                <label for="url" class="col-form-label">Enter URL</label>
+                                <input type="text" class="form-control" id="url" placeholder="Enter URL" autocomplete="off">
+                            </div>
+                        </form>
+                    </div>
 
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button class="btn btn-primary" id="sendLink">Add Link</button>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" id="sendLink">Add Link</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <input type="text" id="copyText" readonly/>
+    <input type="text" id="copyText" readonly />
 
     <script src="layout/js/home.js"></script>
 
-<?php include "$tmp/footer.php"?>
-
-
+    <?php include "$tmp/footer.php" ?>
